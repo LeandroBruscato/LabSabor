@@ -1,0 +1,14 @@
+services:
+  vendas:
+    build: .
+    restart: unless-stopped
+    ports:
+      - "8099:8000"
+    environment:
+      USERS: ${USERS}
+    volumes:
+      - dados:/data
+      - backups:/backups
+volumes:
+  dados:
+  backups:
