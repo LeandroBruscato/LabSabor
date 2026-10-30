@@ -1,140 +1,411 @@
 <!DOCTYPE html>
 <html lang="pt-BR"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Vendas – Laboratório de Sabores</title>
 <style>
-:root{--bg:#f3ead0;--card:#fffaf0;--ink:#2b2a1f;--mut:#6d684f;--line:#d9cc9f;--g:#4a7a37;--r:#c8262c;--on:#fff;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1d2016;--card:#272b1d;--ink:#f1ead2;--mut:#b4ad8c;--line:#444a33;--g:#7fb264;--r:#e5565b}}
-:root[data-theme="dark"]{--bg:#1d2016;--card:#272b1d;--ink:#f1ead2;--mut:#b4ad8c;--line:#444a33;--g:#7fb264;--r:#e5565b}
-*{box-sizing:border-box}html,body{margin:0}body{background:var(--bg);color:var(--ink);font:16px/1.4 system-ui,-apple-system,"Segoe UI",sans-serif;max-width:560px;margin:0 auto;padding:0 14px 90px}
-h1{font:700 22px Georgia,"Times New Roman",serif;margin:16px 0 2px}h2{font:700 17px Georgia,serif;margin:18px 0 8px}
-.sub{color:var(--mut);font-size:13px;margin:0 0 12px}
-nav{display:flex;gap:6px;background:var(--line);padding:4px;border-radius:12px;margin:10px 0}
-nav button{flex:1;border:0;background:none;padding:10px;border-radius:9px;font:600 15px inherit;color:var(--ink)}
+:root{--bg:#f4f3ef;--card:#fff;--ink:#26261f;--mut:#6b6a60;--line:#dcdad0;--g:#3f5f3a;--r:#7a2e2e;--y:#7a5e00;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1b1c19;--card:#252622;--ink:#ecebe4;--mut:#a5a399;--line:#3a3b35;--g:#5f8157;--r:#a14f4b;--y:#a08020}}
+:root[data-theme="dark"]{--bg:#1b1c19;--card:#252622;--ink:#ecebe4;--mut:#a5a399;--line:#3a3b35;--g:#5f8157;--r:#a14f4b;--y:#a08020}
+*{box-sizing:border-box}html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font:16px/1.4 system-ui,-apple-system,"Segoe UI",sans-serif;max-width:560px;margin:0 auto;padding:0 14px 90px}
+h1{font:700 22px Georgia,serif;margin:16px 0 2px}h2{font:700 17px Georgia,serif;margin:18px 0 8px}
+h3{font:700 15px Georgia,serif;margin:0 0 4px;padding-bottom:4px;border-bottom:2px solid var(--g);color:var(--ink)}
+.sub{color:var(--mut);font-size:13px;margin:0 0 6px}
+nav{display:flex;gap:6px;background:var(--line);padding:4px;border-radius:12px;margin:10px 0;overflow-x:auto}
+nav button{flex:1;white-space:nowrap;border:0;background:none;padding:9px 10px;border-radius:9px;font:600 14px inherit;color:var(--ink)}
 nav button.on{background:var(--card);box-shadow:0 1px 2px #0003}
-.seg{display:flex;gap:8px}.seg button{flex:1}
-button,input,select{font:inherit;color:inherit}
-.opt{border:2px solid var(--line);background:var(--card);border-radius:10px;padding:11px;font-weight:600}
-.opt.on{border-color:var(--g);background:var(--g);color:var(--on)}
+.seg{display:flex;gap:8px;margin:6px 0}.seg button{flex:1}
+button,input,select,textarea{font:inherit;color:inherit}
+.opt{border:2px solid var(--line);background:var(--card);border-radius:10px;padding:10px;font-weight:600;cursor:pointer}
+.opt.on{border-color:var(--g);background:var(--g);color:#fff}
 .opt:disabled{opacity:.4}
-label{display:block;font-size:13px;color:var(--mut);margin:12px 0 4px}
-input,select{width:100%;padding:11px;border:2px solid var(--line);border-radius:10px;background:var(--card)}
-.row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid var(--line)}
-.st{display:flex;align-items:center;gap:8px}.st button{width:38px;height:38px;border-radius:50%;border:2px solid var(--line);background:var(--card);font-size:20px;font-weight:700}
-.st b{min-width:28px;text-align:center}
-.sum{background:var(--card);border:2px solid var(--line);border-radius:12px;padding:12px;margin-top:14px}
-.sum div{display:flex;justify-content:space-between;padding:2px 0}.tot{font:700 20px Georgia,serif;border-top:1px solid var(--line);margin-top:6px;padding-top:8px!important}
-.err{color:var(--r);font-weight:600;margin:8px 0;min-height:20px}
-.go{width:100%;padding:15px;border:0;border-radius:12px;background:var(--r);color:#fff;font-weight:700;font-size:17px}
+label{display:block;font-size:13px;color:var(--mut);margin:10px 0 3px}
+input,select,textarea{width:100%;padding:10px;border:2px solid var(--line);border-radius:10px;background:var(--card)}
+textarea{resize:vertical;min-height:60px}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.it{display:flex;flex-direction:column;gap:5px;padding:8px 0;border-bottom:1px solid var(--line)}
+.it>span:first-child{font-size:14px;line-height:1.25}
+.st{display:flex;align-items:center;justify-content:space-between}
+.st button{width:36px;height:36px;border-radius:50%;border:2px solid var(--line);background:var(--card);font-size:18px;font-weight:700;cursor:pointer}
+.st b{min-width:26px;text-align:center}
+.sum{background:var(--card);border:2px solid var(--line);border-radius:12px;padding:12px;margin-top:12px}
+.sum div{display:flex;justify-content:space-between;padding:2px 0}
+.tot{font:700 20px Georgia,serif;border-top:1px solid var(--line);margin-top:6px;padding-top:8px!important}
+.err{color:var(--r);font-weight:600;margin:8px 0;min-height:18px;font-size:14px}
+.warn{color:var(--y);font-weight:600;margin:6px 0;font-size:14px;background:var(--card);border:2px solid var(--y);border-radius:8px;padding:8px}
+.go{width:100%;padding:14px;border:0;border-radius:12px;background:var(--r);color:#fff;font-weight:700;font-size:17px;cursor:pointer}
+.go:disabled{opacity:.5}
 .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px;margin:8px 0}
 .tag{font-size:12px;font-weight:700;padding:2px 8px;border-radius:99px;background:var(--line)}
-.tag.p{background:var(--r);color:#fff}.tag.c{opacity:.6;text-decoration:line-through}
-.sm{border:1px solid var(--line);background:none;border-radius:8px;padding:6px 10px;font-size:13px;margin-left:6px}
-.big{font:700 28px Georgia,serif}.hide{display:none}
+.tag.p{background:var(--r);color:#fff}.tag.c{opacity:.5;text-decoration:line-through}
+.sm{border:1px solid var(--line);background:none;border-radius:8px;padding:5px 10px;font-size:13px;margin:3px 3px 0 0;cursor:pointer}
+.sm.danger{border-color:var(--r);color:var(--r)}
+.sm.ok{border-color:var(--g);color:var(--g)}
+.big{font:700 26px Georgia,serif}.hide{display:none!important}
+.toast{position:fixed;left:14px;right:14px;bottom:calc(14px + env(safe-area-inset-bottom,0px));max-width:532px;margin:auto;background:var(--g);color:#fff;padding:12px;border-radius:12px;font-weight:600;text-align:center;z-index:20}
 #lg{position:fixed;left:0;right:0;top:0;bottom:0;background:var(--bg);z-index:9;padding:18vh 20px 0;max-width:560px;margin:0 auto}
-.toast{position:fixed;left:14px;right:14px;bottom:calc(14px + env(safe-area-inset-bottom,0px));max-width:532px;margin:auto;background:var(--g);color:#fff;padding:13px;border-radius:12px;font-weight:600;text-align:center}
+.pricebadge{display:inline-block;font-size:12px;font-weight:700;padding:2px 8px;border-radius:99px;background:var(--g);color:#fff;margin-left:6px}
+.row2{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--line)}
+.inactive{opacity:.45}
+.cfgrow{display:flex;gap:8px;align-items:flex-end}
+.cfgrow input{margin:0}
 </style></head><body>
-<div id="lg" class="hide"><h1>Entrar</h1><label>Usuário</label><input id="lu" autocomplete="username"><label>Senha</label><input id="lp" type="password" autocomplete="current-password"><div class="err" id="lge"></div><button class="go" id="lgb">Entrar</button></div>
-<h1>Laboratório de Sabores</h1><p class="sub">Conectado: <span id="who"></span></p>
-<nav><button id="t1" class="on" data-t="1">Nova venda</button><button id="t2" data-t="2">Relatórios</button></nav>
 
-<section id="v1">
-<div class="seg"><button class="opt on" data-type="final">Cliente final</button><button class="opt" data-type="b2b">B2B</button></div>
-<label>Cliente (opcional)</label><input id="cli" placeholder="Nome do cliente">
-<label>Data da venda</label><input id="dt" type="date">
-<h2>Sabores <span class="sub" id="pr"></span></h2><div id="fl"></div>
-<div id="b2bbox" class="hide">
-<label>Frete (R$)</label><input id="fr" type="number" inputmode="decimal" min="0" step="0.01" placeholder="0,00">
-<label>Pagamento</label><div class="seg"><button class="opt on" data-st="pago">Pago</button><button class="opt" data-st="pendente">Pendente (a prazo)</button></div>
-<div id="vbox" class="hide"><label>Vencimento</label><input id="venc" type="date"></div>
+<div id="lg" class="hide">
+  <h1>Entrar</h1>
+  <label>Usuário</label><input id="lu" autocomplete="username">
+  <label>Senha</label><input id="lp" type="password" autocomplete="current-password">
+  <div class="err" id="lge"></div>
+  <button class="go" id="lgb">Entrar</button>
 </div>
-<div class="sum"><div><span>Unidades</span><span id="su">0</span></div><div><span>Produtos</span><span id="sp">R$ 0,00</span></div><div><span>Frete</span><span id="sf">R$ 0,00</span></div><div class="tot"><span>Total</span><span id="stt">R$ 0,00</span></div></div>
-<div class="err" id="err"></div><button class="go" id="reg">Registrar venda</button>
+
+<h1>Laboratório de Sabores</h1>
+<p class="sub">Conectado: <span id="who"></span></p>
+<nav>
+  <button id="t1" class="on" data-t="1">Nova venda</button>
+  <button id="t2" data-t="2">Relatórios</button>
+  <button id="t3" data-t="3" class="hide">Clientes</button>
+  <button id="t4" data-t="4" class="hide">Configurações</button>
+</nav>
+
+<!-- ===== ABA 1: NOVA VENDA ===== -->
+<section id="v1">
+  <div class="seg">
+    <button class="opt on" data-type="final">Cliente final</button>
+    <button class="opt" data-type="b2b">B2B</button>
+  </div>
+
+  <label>Cliente (opcional)</label>
+  <input id="cli" placeholder="Nome ou busque na lista" autocomplete="off" list="cli-list">
+  <datalist id="cli-list"></datalist>
+  <div id="cli-match" class="hide" style="font-size:13px;color:var(--mut);margin-top:2px"></div>
+
+  <label>Data da venda</label><input id="dt" type="date">
+
+  <h2>Sabores <span id="pricebadge" class="pricebadge"></span></h2>
+  <div id="fl"></div>
+
+  <div id="b2bbox" class="hide">
+    <label>Frete (R$)</label>
+    <input id="fr" type="number" inputmode="decimal" min="0" step="0.01" placeholder="0,00">
+    <label>Pagamento</label>
+    <div class="seg">
+      <button class="opt on" data-st="pago">Pago</button>
+      <button class="opt" data-st="pendente">Pendente (a prazo)</button>
+    </div>
+    <div id="vbox" class="hide">
+      <label>Vencimento</label><input id="venc" type="date">
+    </div>
+  </div>
+
+  <div class="sum">
+    <div><span>Unidades</span><span id="su">0</span></div>
+    <div><span>Preço unitário</span><span id="spu">R$ 0,00</span></div>
+    <div><span>Produtos</span><span id="sp">R$ 0,00</span></div>
+    <div><span>Frete</span><span id="sf">R$ 0,00</span></div>
+    <div class="tot"><span>Total</span><span id="stt">R$ 0,00</span></div>
+  </div>
+
+  <div id="warn" class="warn hide"></div>
+  <div class="err" id="err"></div>
+  <button class="go" id="reg">Registrar venda</button>
 </section>
 
+<!-- ===== ABA 2: RELATÓRIOS ===== -->
 <section id="v2" class="hide">
-<div class="seg"><button class="opt on" data-p="dia">Dia</button><button class="opt" data-p="semana">Semana</button><button class="opt" data-p="mes">Mês</button></div>
-<label>Data de referência</label><input id="ref" type="date">
-<div class="card"><div class="sub" id="rng"></div><div class="big" id="rt">R$ 0,00</div><div class="sub" id="ru"></div></div>
-<h2>Por sabor</h2><div id="rf"></div>
-<h2>Pendentes em aberto</h2><div id="pd"></div>
-<h2>Vendas do período</h2><div id="ls"></div>
-<p class="sub"><a href="/api/backup">Baixar backup do banco</a></p>
+  <div class="seg">
+    <button class="opt on" data-p="dia">Dia</button>
+    <button class="opt" data-p="semana">Semana</button>
+    <button class="opt" data-p="mes">Mês</button>
+  </div>
+  <label>Data de referência</label><input id="ref" type="date">
+  <div class="card">
+    <div class="sub" id="rng"></div>
+    <div class="big" id="rt">R$ 0,00</div>
+    <div class="sub" id="ru"></div>
+  </div>
+  <h2>Por sabor</h2><div id="rf"></div>
+  <h2>Pendentes em aberto</h2><div id="pd"></div>
+  <h2>Vendas do período</h2><div id="ls"></div>
+  <p class="sub"><a href="/api/backup">Baixar backup do banco</a></p>
 </section>
+
+<!-- ===== ABA 3: CLIENTES ===== -->
+<section id="v3" class="hide">
+  <button class="go" id="new-cli-btn" style="margin-bottom:12px">+ Novo cliente</button>
+
+  <div id="cli-form" class="card hide">
+    <h2 id="cli-form-title">Novo cliente</h2>
+    <div class="seg">
+      <button class="opt on" data-ctype="final">Final</button>
+      <button class="opt" data-ctype="b2b">B2B</button>
+    </div>
+    <label>Nome *</label><input id="cf-name" placeholder="Nome do cliente">
+    <label>Telefone/WhatsApp</label><input id="cf-phone" inputmode="tel">
+    <label>Cidade</label><input id="cf-city">
+    <div id="cf-b2b" class="hide">
+      <label>CNPJ</label><input id="cf-cnpj">
+      <label>Prazo de pagamento próprio (dias, deixe em branco para usar o padrão)</label>
+      <input id="cf-prazo" type="number" min="1" placeholder="ex: 45">
+    </div>
+    <label>Observação</label><textarea id="cf-obs"></textarea>
+    <div class="err" id="cf-err"></div>
+    <div style="display:flex;gap:8px;margin-top:8px">
+      <button class="go" id="cf-save" style="flex:1">Salvar</button>
+      <button class="sm" id="cf-cancel" style="padding:14px">Cancelar</button>
+    </div>
+  </div>
+
+  <input placeholder="Buscar cliente…" id="cli-search" style="margin-bottom:8px">
+  <div id="cli-list-div"></div>
+</section>
+
+<!-- ===== ABA 4: CONFIGURAÇÕES ===== -->
+<section id="v4" class="hide">
+  <p class="sub">Os valores abaixo valem para todas as vendas futuras. Vendas já registradas não são alteradas.</p>
+  <label>Preço unitário — menos de <span id="lbl-min">35</span> unidades (R$)</label>
+  <input id="cfg-pu" type="number" inputmode="decimal" step="0.01" min="0.01">
+  <label>Preço de atacado — <span id="lbl-min2">35</span> ou mais unidades (R$)</label>
+  <input id="cfg-pb" type="number" inputmode="decimal" step="0.01" min="0.01">
+  <label>Quantidade mínima para preço de atacado</label>
+  <input id="cfg-min" type="number" inputmode="numeric" min="1">
+  <label>Prazo padrão de pagamento B2B (dias)</label>
+  <input id="cfg-prazo" type="number" inputmode="numeric" min="1">
+  <div class="err" id="cfg-err"></div>
+  <button class="go" id="cfg-save" style="margin-top:12px">Salvar configurações</button>
+</section>
+
 <div id="toast" class="toast hide"></div>
 
 <script>
-var FL=["Amendoim","Banana","Banana com canela","Banana com canela e açúcar","Banana com açaí","Banana com açaí e açúcar","Cacau","Cacau com pimenta","Cacau sem açúcar","Cacau com pimenta sem açúcar","Goiaba","Goiaba sem açúcar","Cebola","Cebola com orégano e pimenta","Batata doce","Batata doce com lemon pepper","Grão de bico com alecrim","Grão de bico com pimenta","Morango","Morango com orégano"];
-var C={pf:18,pb:16.5,min:35,prazo:30};
-var $=function(i){return document.getElementById(i)};
-var S={type:"final",st:"pago",q:{},per:"dia",conf:null},sales=[],ME=null;
-function api(u,m,b){return fetch(u,{method:m||"GET",headers:{"Content-Type":"application/json"},body:b?JSON.stringify(b):undefined}).then(function(r){return r.json().then(function(j){if(!r.ok)throw j;return j})})}
-function load(){return ME&&ME.role=="admin"?api("/api/sales").then(function(j){sales=j;rep()}):Promise.resolve()}
-function iso(d){return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")}
+var FL=["Amendoim","Banana","Banana com canela","Banana com canela e açúcar","Banana com açaí",
+"Banana com açaí e açúcar","Cacau","Cacau com pimenta","Cacau sem açúcar",
+"Cacau com pimenta sem açúcar","Goiaba","Goiaba sem açúcar","Cebola",
+"Cebola com orégano e pimenta","Batata doce","Batata doce com lemon pepper",
+"Grão de bico com alecrim","Grão de bico com pimenta","Morango","Morango com orégano"];
+var ND=12;
+var S={type:"final",st:"pago",q:{},per:"dia",conf:null,editCliId:null,ctype:"final"};
+var ME=null, CLIENTS=[], sales=[];
+var CFG={pu:18,pb:16.5,min:35,prazo:30};
+
+function api(u,m,b){
+  return fetch(u,{method:m||"GET",headers:{"Content-Type":"application/json"},
+    body:b?JSON.stringify(b):undefined})
+  .then(function(r){return r.json().then(function(j){if(!r.ok)throw j;return j})});
+}
+function R(n){return(+n||0).toLocaleString("pt-BR",{style:"currency",currency:"BRL"})}
+function iso(d){return d.getFullYear()+"-"+("0"+(d.getMonth()+1)).slice(-2)+"-"+("0"+d.getDate()).slice(-2)}
 function add(s,n){var d=new Date(s+"T12:00:00");d.setDate(d.getDate()+n);return iso(d)}
-function R(n){return n.toLocaleString("pt-BR",{style:"currency",currency:"BRL"})}
-function br(s){return s.split("-").reverse().join("/")}
-function price(){return S.type=="b2b"?C.pb:C.pf}
-function units(){return Object.values(S.q).reduce(function(a,b){return a+b},0)}
 function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function $(i){return document.getElementById(i)}
+function toast(msg){var t=$("toast");t.textContent=msg;t.classList.remove("hide");setTimeout(function(){t.classList.add("hide")},2500)}
+function mark(sel,btn){document.querySelectorAll(sel).forEach(function(x){x.classList.toggle("on",x===btn)})}
 
-$("fl").innerHTML=FL.map(function(f,i){return '<div class="row"><span>'+f+'</span><span class="st"><button data-i="'+i+'" data-d="-1">−</button><b id="q'+i+'">0</b><button data-i="'+i+'" data-d="1">+</button></span></div>'}).join("");
-$("dt").value=iso(new Date());$("ref").value=iso(new Date());
+/* ---- SABORES ---- */
+function itm(f,i){return '<div class="it"><span>'+esc(f)+'</span><span class="st"><button data-i="'+i+'" data-d="-1">−</button><b id="q'+i+'">0</b><button data-i="'+i+'" data-d="1">+</button></span></div>'}
+$("fl").innerHTML='<div class="cols"><div><h3>Doces</h3>'+FL.slice(0,ND).map(function(f,i){return itm(f,i)}).join("")+'</div><div><h3>Salgados</h3>'+FL.slice(ND).map(function(f,i){return itm(f,i+ND)}).join("")+'</div></div>';
 
+/* ---- CÁLCULO ---- */
+function units(){return Object.values(S.q).reduce(function(a,b){return a+b},0)}
+function curPu(){return units()>=CFG.min?CFG.pb:CFG.pu}
 function calc(){
-  var u=units(),p=u*price(),f=S.type=="b2b"?(parseFloat($("fr").value)||0):0;
-  $("pr").textContent=R(price())+" por unidade";
-  $("su").textContent=u;$("sp").textContent=R(p);$("sf").textContent=R(f);$("stt").textContent=R(p+f);
+  var u=units(), pu=curPu();
+  var p=u*pu, f=S.type=="b2b"?(parseFloat($("fr").value)||0):0;
+  $("su").textContent=u;
+  $("spu").textContent=R(pu)+(u>=CFG.min?" (atacado)":"");
+  $("sp").textContent=R(p);$("sf").textContent=R(f);$("stt").textContent=R(p+f);
+  $("pricebadge").textContent=R(pu)+" / un";
   $("b2bbox").classList.toggle("hide",S.type!="b2b");
   $("vbox").classList.toggle("hide",!(S.type=="b2b"&&S.st=="pendente"));
+  /* alerta */
+  var w=$("warn"); var falta=CFG.min-u;
+  if(u>=CFG.min||u<(CFG.min-5)){w.classList.add("hide")}
+  else{w.classList.remove("hide");w.textContent="Faltam "+falta+" unidade"+(falta>1?"s":"")+" para o preço de atacado ("+R(CFG.pb)+"). Você pode avançar mesmo assim."}
+  /* labels config */
+  if($("lbl-min"))$("lbl-min").textContent=CFG.min;
+  if($("lbl-min2"))$("lbl-min2").textContent=CFG.min;
 }
-document.addEventListener("click",function(e){
-  var b=e.target.closest("button");if(!b)return;
-  if(b.dataset.t){["1","2"].forEach(function(n){$("v"+n).classList.toggle("hide",n!=b.dataset.t);$("t"+n).classList.toggle("on",n==b.dataset.t)});if(b.dataset.t=="2")rep();return}
-  if(b.dataset.type){S.type=b.dataset.type;if(S.type!="b2b")S.st="pago";mark("[data-type]",b);mark("[data-st]",document.querySelector('[data-st="'+S.st+'"]'));calc();return}
-  if(b.dataset.st){S.st=b.dataset.st;mark("[data-st]",b);if(S.st=="pendente"&&!$("venc").value)$("venc").value=add($("dt").value||iso(new Date()),C.prazo);calc();return}
-  if(b.dataset.d){var i=b.dataset.i,v=Math.max(0,(S.q[i]||0)+ +b.dataset.d);S.q[i]=v;$("q"+i).textContent=v;calc();return}
-  if(b.dataset.p){S.per=b.dataset.p;mark("[data-p]",b);rep();return}
-  if(b.dataset.pay){api("/api/sales/"+b.dataset.pay+"/pay","POST").then(load);return}
-  if(b.dataset.can){if(S.conf==b.dataset.can){var id=S.conf;S.conf=null;api("/api/sales/"+id+"/cancel","POST").then(load)}else{S.conf=b.dataset.can;rep()}return}
+
+/* ---- CLIENTE BUSCA ---- */
+function buildCliList(){
+  var dl=$("cli-list"); dl.innerHTML="";
+  CLIENTS.filter(function(c){return c.active}).forEach(function(c){
+    var o=document.createElement("option");
+    o.value=c.name; o.dataset.id=c.id; o.dataset.type=c.type; dl.appendChild(o);
+  });
+}
+$("cli").addEventListener("input",function(){
+  var v=$("cli").value.trim().toLowerCase();
+  var m=CLIENTS.find(function(c){return c.name.toLowerCase()===v&&c.active});
+  var d=$("cli-match");
+  if(m){
+    S.cliId=m.id;
+    if(m.type=="b2b"&&S.type!="b2b"){
+      S.type="b2b";mark("[data-type]",document.querySelector('[data-type="b2b"]'));calc();}
+    d.textContent="Cliente cadastrado · "+(m.type=="b2b"?"B2B":"Final")+(m.city?" · "+m.city:"");
+    d.classList.remove("hide");
+  } else {S.cliId=null;d.classList.add("hide");}
 });
-function mark(sel,btn){document.querySelectorAll(sel).forEach(function(x){x.classList.toggle("on",x===btn)})}
-$("fr").oninput=calc;$("dt").onchange=function(){if(S.st=="pendente")$("venc").value=add($("dt").value,C.prazo)};$("ref").onchange=rep;
+
+/* ---- EVENTOS ---- */
+document.addEventListener("click",function(e){
+  var b=e.target.closest("button"); if(!b)return;
+  /* tabs */
+  if(b.dataset.t){["1","2","3","4"].forEach(function(n){$("v"+n).classList.toggle("hide",n!=b.dataset.t);$("t"+n).classList.toggle("on",n==b.dataset.t)});if(b.dataset.t=="2")rep();if(b.dataset.t=="3")renderCli();return}
+  /* tipo venda */
+  if(b.dataset.type){S.type=b.dataset.type;if(S.type!="b2b")S.st="pago";mark("[data-type]",b);mark("[data-st]",document.querySelector('[data-st="'+S.st+'"]'));calc();return}
+  /* pagamento */
+  if(b.dataset.st){S.st=b.dataset.st;mark("[data-st]",b);if(S.st=="pendente"&&!$("venc").value)$("venc").value=add($("dt").value||iso(new Date()),CFG.prazo);calc();return}
+  /* qtd sabores */
+  if(b.dataset.d){var i=b.dataset.i,v=Math.max(0,(S.q[i]||0)+ +b.dataset.d);S.q[i]=v;$("q"+i).textContent=v;calc();return}
+  /* pagar pendente */
+  if(b.dataset.pay){api("/api/sales/"+b.dataset.pay+"/pay","POST").then(loadSales);return}
+  /* cancelar venda */
+  if(b.dataset.can){if(S.conf==b.dataset.can){var id=S.conf;S.conf=null;api("/api/sales/"+id+"/cancel","POST").then(loadSales)}else{S.conf=b.dataset.can;rep()}return}
+  /* relatório período */
+  if(b.dataset.p){S.per=b.dataset.p;mark("[data-p]",b);rep();return}
+  /* tipo cliente no form */
+  if(b.dataset.ctype){S.ctype=b.dataset.ctype;mark("[data-ctype]",b);$("cf-b2b").classList.toggle("hide",S.ctype!="b2b");return}
+  /* novo cliente */
+  if(b.id=="new-cli-btn"){openCliForm(null);return}
+  if(b.id=="cf-cancel"){$("cli-form").classList.add("hide");return}
+  if(b.id=="cf-save"){saveClient();return}
+  /* editar / ativar / desativar */
+  if(b.dataset.editcli){openCliForm(b.dataset.editcli);return}
+  if(b.dataset.deact){api("/api/clients/"+b.dataset.deact+"/deactivate","POST").then(loadClients).then(renderCli);return}
+  if(b.dataset.act){api("/api/clients/"+b.dataset.act+"/activate","POST").then(loadClients).then(renderCli);return}
+  /* config save */
+  if(b.id=="cfg-save"){saveConfig();return}
+});
+
+/* ---- REGISTRAR VENDA ---- */
+$("fr").oninput=calc;
+$("dt").onchange=function(){if(S.st=="pendente")$("venc").value=add($("dt").value,CFG.prazo)};
+$("ref").onchange=rep;
 
 $("reg").onclick=function(){
   var u=units(),err="";
   if(!u)err="Escolha ao menos um sabor.";
-  else if(S.type=="b2b"&&u<C.min)err="Venda B2B exige no mínimo "+C.min+" unidades. Faltam "+(C.min-u)+".";
   else if(!$("dt").value)err="Informe a data.";
   else if(S.st=="pendente"&&!$("venc").value)err="Informe o vencimento.";
-  $("err").textContent=err;if(err)return;
+  $("err").textContent=err; if(err)return;
   var items=[];FL.forEach(function(f,i){if(S.q[i])items.push({p:f,q:S.q[i]})});
   $("reg").disabled=true;
-  api("/api/sales","POST",{date:$("dt").value,type:S.type,cli:$("cli").value.trim(),items:items,fr:$("fr").value,st:S.st,venc:$("venc").value}).then(function(){
-    S.q={};FL.forEach(function(f,i){$("q"+i).textContent=0});$("cli").value="";$("fr").value="";$("dt").value=iso(new Date());
-    S.st="pago";mark("[data-st]",document.querySelector('[data-st="pago"]'));calc();load();
-    var t=$("toast");t.textContent="Venda registrada";t.classList.remove("hide");setTimeout(function(){t.classList.add("hide")},2000);
-  }).catch(function(e){$("err").textContent=(e&&e.erro)||"Erro ao registrar. Tente de novo."}).then(function(){$("reg").disabled=false});
+  api("/api/sales","POST",{date:$("dt").value,type:S.type,cli:$("cli").value.trim(),
+    cli_id:S.cliId||null,items:items,fr:$("fr").value,st:S.st,venc:$("venc").value})
+  .then(function(){
+    S.q={};FL.forEach(function(f,i){$("q"+i).textContent=0});
+    $("cli").value="";$("cli-match").classList.add("hide");S.cliId=null;
+    $("fr").value="";$("dt").value=iso(new Date());
+    S.st="pago";mark("[data-st]",document.querySelector('[data-st="pago"]'));calc();
+    loadSales(); toast("Venda registrada");
+  }).catch(function(e){$("err").textContent=(e&&e.erro)||"Erro ao registrar."})
+  .then(function(){$("reg").disabled=false});
 };
 
+/* ---- RELATÓRIOS ---- */
+function loadSales(){return api("/api/sales").then(function(j){sales=j;rep()})}
 function rep(){
   var r=$("ref").value||iso(new Date()),a=r,z=r;
   if(S.per=="semana"){var d=new Date(r+"T12:00:00");a=add(r,-d.getDay());z=add(a,6)}
   if(S.per=="mes"){a=r.slice(0,8)+"01";var d2=new Date(r.slice(0,4),+r.slice(5,7),0);z=iso(d2)}
+  function br(s){return s.split("-").reverse().join("/")}
   $("rng").textContent=a==z?br(a):br(a)+" a "+br(z);
-  var inr=sales.filter(function(s){return s.date>=a&&s.date<=z}),ok=inr.filter(function(s){return s.st!="cancelada"});
+  var inr=sales.filter(function(s){return s.date>=a&&s.date<=z});
+  var ok=inr.filter(function(s){return s.st!="cancelada"});
   $("rt").textContent=R(ok.reduce(function(t,s){return t+s.total},0));
-  $("ru").textContent=ok.reduce(function(t,s){return t+s.u},0)+" unidades em "+ok.length+" vendas";
+  $("ru").textContent=ok.reduce(function(t,s){return t+s.u},0)+" unidades em "+ok.length+" venda"+(ok.length!=1?"s":"");
   var m={};ok.forEach(function(s){s.items.forEach(function(i){m[i.p]=(m[i.p]||0)+i.q})});
   var k=Object.keys(m).sort(function(x,y){return m[y]-m[x]});
-  $("rf").innerHTML=k.length?k.map(function(n){return '<div class="row"><span>'+esc(n)+'</span><b>'+m[n]+'</b></div>'}).join(""):'<p class="sub">Nenhuma venda neste período.</p>';
-  var pd=sales.filter(function(s){return s.st=="pendente"}).sort(function(x,y){return x.venc<y.venc?-1:1}),hoje=iso(new Date());
-  $("pd").innerHTML=pd.length?pd.map(function(s){return '<div class="card"><b>'+esc(s.cli||"Sem nome")+'</b> '+R(s.total)+'<div class="sub">Vence em '+br(s.venc)+(s.venc<hoje?" (atrasada)":"")+'</div><button class="sm" data-pay="'+s.id+'">Marcar como pago</button></div>'}).join(""):'<p class="sub">Nada pendente.</p>';
+  $("rf").innerHTML=k.length?k.map(function(n){return'<div class="row2"><span>'+esc(n)+'</span><b>'+m[n]+'</b></div>'}).join(""):'<p class="sub">Nenhuma venda neste período.</p>';
+  var pd=sales.filter(function(s){return s.st=="pendente"}).sort(function(x,y){return x.venc<y.venc?-1:1});
+  var hoje=iso(new Date());
+  $("pd").innerHTML=pd.length?pd.map(function(s){return'<div class="card"><b>'+esc(s.cli||"Sem nome")+'</b> '+R(s.total)+'<div class="sub">Vence '+s.venc.split("-").reverse().join("/")+(s.venc<hoje?" · <span style=color:var(--r)>atrasada</span>":"")+'</div><button class="sm ok" data-pay="'+s.id+'">Marcar como pago</button></div>'}).join(""):'<p class="sub">Nada pendente.</p>';
   $("ls").innerHTML=inr.length?inr.slice().reverse().map(function(s){
     var tag=s.st=="pendente"?'<span class="tag p">pendente</span>':s.st=="cancelada"?'<span class="tag c">cancelada</span>':'<span class="tag">pago</span>';
-    return '<div class="card"><b>'+esc(s.cli||"Sem nome")+'</b> '+tag+'<div class="sub">'+br(s.date)+" · "+(s.type=="b2b"?"B2B":"Final")+" · "+s.u+" un · "+R(s.total)+(s.fr?" (frete "+R(s.fr)+")":"")+'</div>'+(s.st!="cancelada"?'<button class="sm" data-can="'+s.id+'">'+(S.conf==s.id?"Confirmar cancelamento":"Cancelar")+'</button>':"")+'</div>'}).join(""):'<p class="sub">Nenhuma venda neste período.</p>';
+    return'<div class="card"><b>'+esc(s.cli||"Sem nome")+'</b> '+tag+'<div class="sub">'+s.date.split("-").reverse().join("/")+" · "+(s.type=="b2b"?"B2B":"Final")+" · "+s.u+" un · "+R(s.total)+(s.fr?" (frete "+R(s.fr)+")":"")+'</div>'+(s.st!="cancelada"?'<button class="sm danger" data-can="'+s.id+'">'+(S.conf==s.id?"Confirmar cancelamento":"Cancelar")+'</button>':"")+'</div>'
+  }).join(""):'<p class="sub">Nenhuma venda neste período.</p>';
 }
-function boot(){api("/api/me").then(function(u){ME=u;$("lg").classList.add("hide");$("t2").classList.toggle("hide",u.role!="admin");$("who").textContent=u.name;return load()}).catch(function(){$("lg").classList.remove("hide")})}
-$("lgb").onclick=function(){api("/api/login","POST",{u:$("lu").value,p:$("lp").value}).then(boot).catch(function(){$("lge").textContent="Usuário ou senha incorretos."})};
-calc();boot();
+
+/* ---- CLIENTES ---- */
+function loadClients(){return api("/api/clients").then(function(j){CLIENTS=j;buildCliList()})}
+function renderCli(){
+  var q=$("cli-search").value.toLowerCase();
+  var list=CLIENTS.filter(function(c){return !q||c.name.toLowerCase().includes(q)||( c.city||"").toLowerCase().includes(q)});
+  $("cli-list-div").innerHTML=list.length?list.map(function(c){
+    return'<div class="card '+(c.active?"":"inactive")+'"><b>'+esc(c.name)+'</b> <span class="tag">'+(c.type=="b2b"?"B2B":"Final")+'</span>'+(c.city?' <span class="sub">'+esc(c.city)+'</span>':'')+'<br><div style="margin-top:4px">'+(c.phone?'📱 '+esc(c.phone)+'  ':'')+( c.cnpj?'CNPJ: '+esc(c.cnpj):'')+'</div>'+(c.obs?'<div class="sub" style="margin-top:2px">'+esc(c.obs)+'</div>':'')+
+    '<div style="margin-top:6px"><button class="sm" data-editcli="'+c.id+'">Editar</button>'+(c.active?'<button class="sm danger" data-deact="'+c.id+'">Desativar</button>':'<button class="sm ok" data-act="'+c.id+'">Reativar</button>')+'</div></div>'
+  }).join(""):'<p class="sub">Nenhum cliente encontrado.</p>';
+}
+$("cli-search").addEventListener("input",renderCli);
+
+function openCliForm(id){
+  S.editCliId=id;
+  $("cli-form-title").textContent=id?"Editar cliente":"Novo cliente";
+  $("cf-name").value="";$("cf-phone").value="";$("cf-city").value="";
+  $("cf-cnpj").value="";$("cf-prazo").value="";$("cf-obs").value="";$("cf-err").textContent="";
+  S.ctype="final";mark("[data-ctype]",document.querySelector('[data-ctype="final"]'));
+  $("cf-b2b").classList.add("hide");
+  if(id){
+    var c=CLIENTS.find(function(x){return x.id==id});
+    if(c){
+      $("cf-name").value=c.name;$("cf-phone").value=c.phone||"";$("cf-city").value=c.city||"";
+      $("cf-cnpj").value=c.cnpj||"";$("cf-prazo").value=c.prazo||"";$("cf-obs").value=c.obs||"";
+      S.ctype=c.type;mark("[data-ctype]",document.querySelector('[data-ctype="'+c.type+'"]'));
+      $("cf-b2b").classList.toggle("hide",c.type!="b2b");
+    }
+  }
+  $("cli-form").classList.remove("hide");
+  $("cf-name").focus();
+}
+function saveClient(){
+  var body={name:$("cf-name").value,type:S.ctype,phone:$("cf-phone").value,
+    city:$("cf-city").value,cnpj:$("cf-cnpj").value,prazo:$("cf-prazo").value,obs:$("cf-obs").value};
+  var url=S.editCliId?"/api/clients/"+S.editCliId:"/api/clients";
+  api(url,"POST",body).then(function(){
+    $("cli-form").classList.add("hide");
+    return loadClients();
+  }).then(renderCli).catch(function(e){$("cf-err").textContent=(e&&e.erro)||"Erro ao salvar."});
+}
+
+/* ---- CONFIGURAÇÕES ---- */
+function loadConfig(){
+  return api("/api/config").then(function(j){
+    CFG=j;
+    $("cfg-pu").value=j.pu;$("cfg-pb").value=j.pb;
+    $("cfg-min").value=j.min;$("cfg-prazo").value=j.prazo;
+    calc();
+  });
+}
+function saveConfig(){
+  $("cfg-err").textContent="";
+  api("/api/config","POST",{pu:$("cfg-pu").value,pb:$("cfg-pb").value,
+    min:$("cfg-min").value,prazo:$("cfg-prazo").value})
+  .then(function(j){
+    return loadConfig();
+  }).then(function(){toast("Configurações salvas")})
+  .catch(function(e){$("cfg-err").textContent=(e&&e.erro)||"Erro ao salvar."});
+}
+
+/* ---- BOOT ---- */
+function boot(){
+  api("/api/me").then(function(u){
+    ME=u; CFG={pu:u.pu,pb:u.pb,min:u.min,prazo:u.prazo};
+    $("lg").classList.add("hide");
+    var adm=u.role=="admin";
+    $("t2").classList.toggle("hide",!adm);
+    $("t3").classList.toggle("hide",!adm);
+    $("t4").classList.toggle("hide",!adm);
+    $("who").textContent=u.name+(adm?" (admin)":"");
+    calc();
+    return loadClients().then(function(){if(adm)return loadSales()});
+  }).catch(function(){$("lg").classList.remove("hide")});
+}
+$("lgb").onclick=function(){
+  $("lge").textContent="";
+  api("/api/login","POST",{u:$("lu").value,p:$("lp").value})
+  .then(boot).catch(function(){$("lge").textContent="Usuário ou senha incorretos."});
+};
+$("dt").value=iso(new Date());$("ref").value=iso(new Date());
+calc(); boot();
 </script></body></html>
