@@ -7,7 +7,7 @@ FL  = ["Amendoim","Banana","Banana com canela","Banana com canela e açúcar","B
        "Banana com açaí e açúcar","Cacau","Cacau com pimenta","Cacau sem açúcar",
        "Cacau com pimenta sem açúcar","Goiaba","Goiaba sem açúcar","Cebola",
        "Cebola com orégano e pimenta","Batata doce","Batata doce com lemon pepper",
-       "Grão de bico com alecrim","Grão de bico com pimenta","Morango","Morango com orégano"]
+       "Grão de bico com alecrim","Grão de bico com pimenta","Moranga","Moranga com orégano"]
 
 class Err(Exception): pass
 
@@ -187,7 +187,7 @@ class H(BaseHTTPRequestHandler):
         if p == "/api/config" and u["role"]=="admin":
             c = db()
             try:
-                pu = float(b["pu"]); pb = float(b["pb"])
+                pu = round(float(str(b["pu"]).replace(",",".")),2); pb = round(float(str(b["pb"]).replace(",",".")),2)
                 mn = int(b["min"]); pr = int(b["prazo"])
                 assert pu>0 and pb>0 and mn>0 and pr>0
             except: c.close(); return s.out(400, {"erro":"Valores inválidos."})
@@ -242,10 +242,10 @@ class H(BaseHTTPRequestHandler):
             raw  = b.get("prazo","")
             pr   = int(raw) if str(raw).strip() else None
         except Err as e: c.close(); return s.out(400,{"erro":str(e)})
-        c.execute("INSERT INTO clients(name,type,phone,city,cnpj,prazo,obs) VALUES(?,?,?,?,?,?,?)",
+        cur = c.execute("INSERT INTO clients(name,type,phone,city,cnpj,prazo,obs) VALUES(?,?,?,?,?,?,?)",
                   (name, tp, str(b.get("phone",""))[:20], str(b.get("city",""))[:60],
                    str(b.get("cnpj",""))[:20], pr, str(b.get("obs",""))[:200]))
-        c.commit(); rid = c.lastrowid
+        c.commit(); rid = cur.lastrowid
         r = ser_client(c.execute("SELECT * FROM clients WHERE id=?", (rid,)).fetchone())
         c.close(); return s.out(200, r)
 

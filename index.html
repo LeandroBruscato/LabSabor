@@ -164,9 +164,9 @@ textarea{resize:vertical;min-height:60px}
 <section id="v4" class="hide">
   <p class="sub">Os valores abaixo valem para todas as vendas futuras. Vendas já registradas não são alteradas.</p>
   <label>Preço unitário — menos de <span id="lbl-min">35</span> unidades (R$)</label>
-  <input id="cfg-pu" type="number" inputmode="decimal" step="0.01" min="0.01">
+  <input id="cfg-pu" type="text" inputmode="decimal">
   <label>Preço de atacado — <span id="lbl-min2">35</span> ou mais unidades (R$)</label>
-  <input id="cfg-pb" type="number" inputmode="decimal" step="0.01" min="0.01">
+  <input id="cfg-pb" type="text" inputmode="decimal">
   <label>Quantidade mínima para preço de atacado</label>
   <input id="cfg-min" type="number" inputmode="numeric" min="1">
   <label>Prazo padrão de pagamento B2B (dias)</label>
@@ -182,7 +182,7 @@ var FL=["Amendoim","Banana","Banana com canela","Banana com canela e açúcar","
 "Banana com açaí e açúcar","Cacau","Cacau com pimenta","Cacau sem açúcar",
 "Cacau com pimenta sem açúcar","Goiaba","Goiaba sem açúcar","Cebola",
 "Cebola com orégano e pimenta","Batata doce","Batata doce com lemon pepper",
-"Grão de bico com alecrim","Grão de bico com pimenta","Morango","Morango com orégano"];
+"Grão de bico com alecrim","Grão de bico com pimenta","Moranga","Moranga com orégano"];
 var ND=12;
 var S={type:"final",st:"pago",q:{},per:"dia",conf:null,editCliId:null,ctype:"final"};
 var ME=null, CLIENTS=[], sales=[];
@@ -369,12 +369,12 @@ function saveClient(){
 }
 
 /* ---- CONFIGURAÇÕES ---- */
+function fmt(v){var n=parseFloat(String(v).replace(",","."));return isNaN(n)?"":n.toFixed(2).replace(".",",")}
+function fillCfg(){$("cfg-pu").value=fmt(CFG.pu);$("cfg-pb").value=fmt(CFG.pb);$("cfg-min").value=CFG.min;$("cfg-prazo").value=CFG.prazo}
+["cfg-pu","cfg-pb"].forEach(function(i){$(i).addEventListener("blur",function(){this.value=fmt(this.value)})});
 function loadConfig(){
   return api("/api/config").then(function(j){
-    CFG=j;
-    $("cfg-pu").value=j.pu;$("cfg-pb").value=j.pb;
-    $("cfg-min").value=j.min;$("cfg-prazo").value=j.prazo;
-    calc();
+    CFG=j;fillCfg();calc();
   });
 }
 function saveConfig(){
@@ -397,7 +397,7 @@ function boot(){
     $("t3").classList.toggle("hide",!adm);
     $("t4").classList.toggle("hide",!adm);
     $("who").textContent=u.name+(adm?" (admin)":"");
-    calc();
+    fillCfg();calc();
     return loadClients().then(function(){if(adm)return loadSales()});
   }).catch(function(){$("lg").classList.remove("hide")});
 }
