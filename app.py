@@ -46,6 +46,8 @@ CREATE TABLE IF NOT EXISTS sales(
   venc TEXT, paid_on TEXT, created_by TEXT, at TEXT);
 CREATE TABLE IF NOT EXISTS items(
   sale INTEGER REFERENCES sales(id), p TEXT, q INTEGER, pu REAL);""")
+    if "cli_id" not in [r[1] for r in c.execute("PRAGMA table_info(sales)")]:
+        c.execute("ALTER TABLE sales ADD COLUMN cli_id INTEGER")
     for u in os.environ.get("USERS","").split(";"):
         p = u.split(":")
         if len(p) == 3:
