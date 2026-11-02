@@ -47,6 +47,7 @@ textarea{resize:vertical;min-height:60px}
 .pricebadge{display:inline-block;font-size:12px;font-weight:700;padding:2px 8px;border-radius:99px;background:var(--g);color:#fff;margin-left:6px}
 .row2{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--line)}
 .inactive{opacity:.45}
+.dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:8px}
 .cfgrow{display:flex;gap:8px;align-items:flex-end}
 .cfgrow input{margin:0}
 </style></head><body>
@@ -304,6 +305,17 @@ $("reg").onclick=function(){
 };
 
 /* ---- RELATÓRIOS ---- */
+var PAL=["#3f5f3a","#7a2e2e","#8a6d3b","#4a6c7a","#6b4c7a","#a0764a","#5f8157","#a14f4b","#7d8a4a","#3e5c76","#8c5a7a","#6e6e5a"];
+function pie(k,m){
+  var tot=k.reduce(function(t,n){return t+m[n]},0),a0=-Math.PI/2,s="";
+  if(k.length==1)s='<circle cx="100" cy="100" r="95" fill="'+PAL[0]+'"/>';
+  else k.forEach(function(n,i){
+    var a1=a0+m[n]/tot*2*Math.PI,big=a1-a0>Math.PI?1:0;
+    s+='<path d="M100 100L'+(100+95*Math.cos(a0)).toFixed(2)+' '+(100+95*Math.sin(a0)).toFixed(2)+'A95 95 0 '+big+' 1 '+(100+95*Math.cos(a1)).toFixed(2)+' '+(100+95*Math.sin(a1)).toFixed(2)+'Z" fill="'+PAL[i%PAL.length]+'" stroke="var(--card)" stroke-width="1.5"><title>'+esc(n)+': '+m[n]+'</title></path>';
+    a0=a1});
+  var leg=k.map(function(n,i){return'<div class="row2"><span><i class="dot" style="background:'+PAL[i%PAL.length]+'"></i>'+esc(n)+'</span><span><b>'+m[n]+'</b> <span class="sub">'+(m[n]/tot*100).toFixed(1).replace(".",",")+'%</span></span></div>'}).join("");
+  return'<svg viewBox="0 0 200 200" style="width:100%;max-width:240px;display:block;margin:6px auto 10px" role="img" aria-label="Vendas por sabor">'+s+'</svg>'+leg;
+}
 function loadSales(){return api("/api/sales").then(function(j){sales=j;rep()})}
 function rep(){
   var r=$("ref").value||iso(new Date()),a=r,z=r;
@@ -317,7 +329,7 @@ function rep(){
   $("ru").textContent=ok.reduce(function(t,s){return t+s.u},0)+" unidades em "+ok.length+" venda"+(ok.length!=1?"s":"");
   var m={};ok.forEach(function(s){s.items.forEach(function(i){m[i.p]=(m[i.p]||0)+i.q})});
   var k=Object.keys(m).sort(function(x,y){return m[y]-m[x]});
-  $("rf").innerHTML=k.length?k.map(function(n){return'<div class="row2"><span>'+esc(n)+'</span><b>'+m[n]+'</b></div>'}).join(""):'<p class="sub">Nenhuma venda neste período.</p>';
+  $("rf").innerHTML=k.length?pie(k,m):'<p class="sub">Nenhuma venda neste período.</p>';
   var pd=sales.filter(function(s){return s.st=="pendente"}).sort(function(x,y){return x.venc<y.venc?-1:1});
   var hoje=iso(new Date());
   $("pd").innerHTML=pd.length?pd.map(function(s){return'<div class="card"><b>'+esc(s.cli||"Sem nome")+'</b> '+R(s.total)+'<div class="sub">Vence '+s.venc.split("-").reverse().join("/")+(s.venc<hoje?" · <span style=color:var(--r)>atrasada</span>":"")+'</div><button class="sm ok" data-pay="'+s.id+'">Marcar como pago</button></div>'}).join(""):'<p class="sub">Nada pendente.</p>';
